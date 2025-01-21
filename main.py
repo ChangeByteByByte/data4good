@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('data/data_morgenpost.csv')
 com = pd.read_csv('data/communen.csv', sep=';')
 
-print(min(df['ags']), max(df['ags']))
-print(min(com['GKZ']), max(com['GKZ']))
+# print(min(df['ags']), max(df['ags']))
+# print(min(com['GKZ']), max(com['GKZ']))
 
 com['ags'] = com['GKZ']
 com['ags'] = com['ags'] / 1000
@@ -27,12 +27,6 @@ for c in near:
     df[c+'_normalised'] = df[c] / df[c].abs().max()
 near = [c+'_normalised' for c in near]
 df['c_score'] = df[near].sum(axis=1)
-# lst = list(df['c_score'])
-# lst = [l for l in lst if not np.isnan(l)]
-# lst.sort()
-# plt.figure()
-# plt.plot(range(len(lst)), lst, '.')
-# plt.show()
 
 df_for_map = df[['ags', 'c_score']]
 
@@ -47,7 +41,23 @@ map = map.merge(df_for_map, on='ags')
 def makemap(col=None, title=''):
     map.plot(column=col, figsize=(6, 8), edgecolor="black", legend=True).set_axis_off()
     plt.title(title)
+    # plt.show()
     plt.savefig(f'img/{title}.svg', transparent=True)
     plt.savefig(f'img/{title}.png', transparent=True)
 
-makemap(col='c_score', title='Climate Impact Indicator')
+# makemap(col='c_score', title='Climate Impact Indicator')
+
+
+econ = pd.read_csv('data/socioeconomic_factors_new.csv', sep=',')
+econ = econ[['GKZ', 'socio_economic_index']]
+econ['ags'] = econ['GKZ'] // 1000
+
+map = map.merge(econ, on='ags')
+# print(map.columns)
+
+corrolation = map['c_score'].corr(map['socio_economic_index'])
+print(corrolation)
+
+makemap(col='socio_economic_index', title='socio')
+makemap(col='c_score', title='climat')
+# plt.show()
