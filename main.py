@@ -3,6 +3,8 @@ import pandas as pd
 from netCDF4 import Dataset
 
 
-communen = pd.read_csv('commenendata/data_1.csv', )
+dt = Dataset('ger_klima_rcp85_30_2011-2100_p50_grd.nc', mode='r')
 
-print(communen.head())
+# communen = pd.read_csv('commenendata/data.csv', sep=';')
+
+# print(communen.head())
