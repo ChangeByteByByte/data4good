@@ -15,7 +15,7 @@ econ_df
 import numpy as np
 
 # %%
-econ_df.drop("2021\r\nLangzeitarbeitslosenquote (%)", axis=1, inplace=True)
+econ_df.drop("2021\nLangzeitarbeitslosenquote (%)", axis=1, inplace=True)
 
 # %%
 for col in econ_df.columns:
@@ -28,15 +28,15 @@ for col in econ_df.columns:
         print("column not string")
 
 # %%
-#econ_df["2021\r\nAnteil 65- bis 79-Jährige (%)"] = econ_df["2021\r\nAnteil 65- bis 79-Jährige (%)"]
+#econ_df["2021\nAnteil 65- bis 79-J�hrige (%)"] = econ_df["2021\nAnteil 65- bis 79-J�hrige (%)"]
 # TODO: Convert to float!!!
-# econ_df["2021\r\nAnteil 65- bis 79-Jährige (%)"] = econ_df["2021\r\nAnteil 65- bis 79-Jährige (%)"].replace(",", ".")
-# econ_df["2021\r\nAnteil ab 80-Jährige (%)"] = econ_df["2021\r\nAnteil ab 80-Jährige (%)"].replace(",", ".")
-econ_df["2021\r\nAnteil ab 65-Jährige (%)"] = econ_df["2021\r\nAnteil 65- bis 79-Jährige (%)"] + econ_df["2021\r\nAnteil ab 80-Jährige (%)"]
+# econ_df["2021\nAnteil 65- bis 79-J�hrige (%)"] = econ_df["2021\nAnteil 65- bis 79-J�hrige (%)"].replace(",", ".")
+# econ_df["2021\nAnteil ab 80-J�hrige (%)"] = econ_df["2021\nAnteil ab 80-J�hrige (%)"].replace(",", ".")
+econ_df["2021\nAnteil ab 65-J�hrige (%)"] = econ_df["2021\nAnteil 65- bis 79-J�hrige (%)"] + econ_df["2021\nAnteil ab 80-J�hrige (%)"]
 
 cols = econ_df.columns
 
-econ_df = econ_df[list(set(econ_df.columns).difference(set(["2021\r\nAnteil ab 80-Jährige (%)", "2021\r\nAnteil 65- bis 79-Jährige (%)", "2021\r\nKaufkraft (Euro/Haushalt)"])))]
+econ_df = econ_df[list(set(econ_df.columns).difference(set(["2021\nAnteil ab 80-J�hrige (%)", "2021\nAnteil 65- bis 79-J�hrige (%)", "2021\nKaufkraft (Euro/Haushalt)"])))]
 econ_df
 
 
@@ -47,7 +47,7 @@ for col in econ_df.columns:
         continue
     econ_df[f"{col}_normalized"] = econ_df[col] / econ_df[col].max()
 
-econ_df["socio_economic_index"] = econ_df["2021\r\nHaushalte mit niedrigem Einkommen (%)_normalized"] + econ_df["2021\r\nAnteil ab 65-Jährige (%)_normalized"] + econ_df["2021\r\nVerschuldung im Kernhaushalt (Euro je Einwohner:in)_normalized"] - econ_df["2021\r\nAllgemeine Deckungsmittel (Euro je Einwohner:in)_normalized"]
+econ_df["socio_economic_index"] = econ_df["2021\nHaushalte mit niedrigem Einkommen (%)_normalized"] + econ_df["2021\nAnteil ab 65-J�hrige (%)_normalized"] + econ_df["2021\nVerschuldung im Kernhaushalt (Euro je Einwohner:in)_normalized"] - econ_df["2021\nAllgemeine Deckungsmittel (Euro je Einwohner:in)_normalized"]
 
 # %%
 econ_df["socio_economic_index"]
