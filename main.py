@@ -37,8 +37,8 @@ df['c_score_normalised'] = (
 ## codes for Hamburg and Berlin
 berlin = 11000
 hh = 2000
-df[df['GKZ'] == berlin]['socio_economic_index_normalised']
-df[df['GKZ'] == hh]['socio_economic_index_normalised']
+df[df['ags'] == berlin]['c_score_normalised']
+df[df['ags'] == hh]['c_score_normalised']
 
 df_for_map = df[['ags', 'c_score', 'c_score_normalised']]
 
@@ -53,8 +53,8 @@ def makemap(col=None, title='', cmap=None):
     map.plot(column=col, figsize=(6, 8),edgecolor="black", legend=False, cmap=cmap, scheme='EqualInterval', k=5).set_axis_off()
     # plt.title(title)
     # plt.show()
-    # plt.savefig(f'img/{title}.svg', transparent=True)
-    # plt.savefig(f'img/{title}.png', transparent=True)
+    plt.savefig(f'img/{title}.svg', transparent=True)
+    plt.savefig(f'img/{title}.png', transparent=True)
 
 # makemap(col='c_score', title='Climate Impact Indicator')
 
@@ -69,11 +69,11 @@ econ['ags']=econ['GKZ'] // 1000
 
 map=map.merge(econ, on='ags')
 # print(map.columns)
-map['investment'] = map['c_score_normalised'] + map['socio_economic_index_normalised']
-# print(map.loc[map['investment'].idxmax()])
-lst = list(map['investment'])
-lst.sort()
-plt.plot(range(len(lst)), lst, '.')
+map['investment'] = map['c_score_normalised'] * map['socio_economic_index_normalised']
+print(map.loc[map['investment'].idxmax()])
+# lst = list(map['investment'])
+# lst.sort()
+# plt.plot(range(len(lst)), lst, '.')
 # plt.show()
 
 corrolation=map['c_score'].corr(map['socio_economic_index'])
